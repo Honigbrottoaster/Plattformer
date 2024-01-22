@@ -17,7 +17,6 @@ class Player:
     def get_onGround(self, floor):
         if self.rect.colliderect(floor.rect):
             self.on_ground = True
-            self.rect.y = floor.rect.y - self.height
         else:
             self.on_ground = False
     
@@ -56,6 +55,9 @@ class Platform:
         pygame.draw.rect(game.screen, (0, 80, 150), self.rect)
 
     def move(self):
+        if self.rect.x <= -self.width:
+            self.rect.x = SCREEN_WIDTH + 2
+
         self.rect.x -= self.speed
 
 class Game:
@@ -93,7 +95,7 @@ class Game:
 
         self.platform.draw(self)
 
-        pygame.draw.rect(self.screen, "black", self.player.rect)
+        pygame.draw.ellipse(self.screen, "black", self.player.rect)
 
         pygame.draw.rect(self.screen, "red", self.floor.rect)
 
